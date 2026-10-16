@@ -1,0 +1,10 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["Z9HVS4ZL47.com.nathan8hui.catpaw"],
+        "components": [{ "/": "/l/*", "comment": "A shared level: the level code is after the #" }]
+      }
+    ]
+  }
+}
