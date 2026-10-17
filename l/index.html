@@ -1,57 +1,53 @@
 <!doctype html>
-<html lang="zh">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>猫猫闯祸 · 朋友的挑战</title>
+<title>Paw &amp; Crash</title>
 <meta name="apple-itunes-app" content="app-id=6820666976">
 <meta property="og:title" content="猫猫闯祸 · Paw &amp; Crash">
-<meta property="og:description" content="朋友发来一关挑战，来把东西推下桌吧！">
+<meta property="og:description" content="🐾💥">
 <style>
-  :root { --cream: #fbf3e8; --card: #fff8ee; --ink: #59453a; --muted: #8a7466; --coral: #e57f6d; --line: #e2d4c0; }
-  * { box-sizing: border-box; }
-  body { margin: 0; min-height: 100vh; background: var(--cream); color: var(--ink);
-    font-family: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif; display: flex; align-items: center; justify-content: center; padding: 24px 16px; }
-  .card { width: 100%; max-width: 380px; background: var(--card); border: 3px solid var(--ink); border-radius: 24px; padding: 28px 22px; text-align: center; }
-  .cat { font-size: 64px; line-height: 1; }
-  h1 { font-size: 24px; margin: 12px 0 6px; }
-  p { color: var(--muted); line-height: 1.6; margin: 0 0 18px; }
-  a.btn { display: block; text-decoration: none; font-size: 18px; font-weight: 600; border: 3px solid var(--ink); border-radius: 16px; padding: 14px; margin-top: 12px; color: var(--ink); background: #f3e3cf; }
-  a.btn.main { background: var(--coral); color: #fff; }
-  .hint { display: none; background: #fff2b0; border-radius: 12px; padding: 10px; margin-bottom: 14px; color: var(--ink); font-size: 15px; }
-  .err { display: none; }
+  body { margin: 0; min-height: 100vh; background: #fbf3e8; color: #59453a; display: flex; align-items: center; justify-content: center;
+    font-family: -apple-system, "PingFang SC", "PingFang TC", "Hiragino Sans", "Apple SD Gothic Neo", sans-serif; }
+  .paw { font-size: 44px; animation: bob 0.9s ease-in-out infinite alternate; }
+  @keyframes bob { from { transform: translateY(0); } to { transform: translateY(-8px); } }
+  .hint { display: none; max-width: 300px; margin: 0 24px; padding: 16px; background: #fff2b0; border: 3px solid #59453a; border-radius: 16px; font-size: 17px; line-height: 1.5; text-align: center; }
 </style>
 </head>
 <body>
-<div class="card">
-  <div class="cat">🐱</div>
-  <h1 id="title">朋友发来一关挑战</h1>
-  <p id="sub">在「猫猫闯祸」里打开，看看你几次能把它推下桌摔碎。</p>
-  <div class="hint" id="wechat">微信里打不开 App：点右上角 ··· ，选「在浏览器打开」。</div>
-  <a class="btn main" id="open" href="#">打开这一关</a>
-  <a class="btn" id="store" href="https://apps.apple.com/app/id6820666976">还没有 App？去 App Store 下载</a>
-  <p class="err" id="err" style="margin-top:16px">这个链接里没有关卡。请让朋友在游戏里重新分享一次。</p>
-</div>
+<div class="paw" id="paw">🐾</div>
+<div class="hint" id="hint"></div>
 <script>
-  // The level code travels after the # and never reaches a server; the app reads it from the link.
+  // A shared level: https://nathan3hui-oss.github.io/l/#PAW1:… With the game installed iOS opens the
+  // game itself and this page never shows. So in Safari the game is missing: straight to the App
+  // Store. Chat apps' own browsers (LINE, Instagram…) can't tell, so they try the game first and
+  // go to the App Store if it doesn't open. WeChat blocks both: it gets a word on what to do.
+  var STORE = "https://apps.apple.com/app/id6820666976";
   var code = decodeURIComponent(location.hash.slice(1));
-  var en = !/^zh/i.test(navigator.language || "");
-  if (en) {
-    document.documentElement.lang = "en";
-    document.title = "Paw & Crash · A friend's challenge";
-    document.getElementById("title").textContent = "A friend sent you a level";
-    document.getElementById("sub").textContent = "Open it in Paw & Crash and see how few pushes it takes you to knock it off the table.";
-    document.getElementById("wechat").textContent = "WeChat can't open apps: tap ··· at the top right and choose Open in Browser.";
-    document.getElementById("open").textContent = "Open this level";
-    document.getElementById("store").textContent = "No app yet? Get it on the App Store";
-    document.getElementById("err").textContent = "There is no level in this link. Ask your friend to share it again from the game.";
+  var ua = navigator.userAgent;
+  var lang = (navigator.language || "en").toLowerCase();
+  var WECHAT = {
+    "zh-hant": "微信打不開遊戲：點右上角 ··· ，選「在瀏覽器開啟」。",
+    "zh": "微信打不开游戏：点右上角 ··· ，选「在浏览器打开」。",
+    "ja": "WeChatではゲームを開けません。右上の ··· から「ブラウザで開く」を選んでください。",
+    "ko": "위챗에서는 게임을 열 수 없어요. 오른쪽 위 ··· 에서 '브라우저에서 열기'를 눌러 주세요.",
+    "en": "WeChat can't open the game: tap ··· at the top right and choose Open in Browser."
+  };
+  function words(table) {
+    if (/^zh-(hant|tw|hk|mo)/.test(lang)) return table["zh-hant"];
+    return table[lang.slice(0, 2)] || table.en;
   }
-  if (/MicroMessenger/i.test(navigator.userAgent)) document.getElementById("wechat").style.display = "block";
-  if (code.indexOf("PAW1:") < 0) {
-    document.getElementById("open").style.display = "none";
-    document.getElementById("err").style.display = "block";
+  if (/MicroMessenger/i.test(ua)) {
+    document.getElementById("paw").style.display = "none";
+    var hint = document.getElementById("hint");
+    hint.textContent = words(WECHAT);
+    hint.style.display = "block";
+  } else if (code.indexOf("PAW1:") >= 0 && /Line\/|Instagram|FBAN|FBAV|FB_IAB|Messenger|Twitter|KAKAOTALK|Snapchat|TikTok|musical_ly|BytedanceWebview/i.test(ua)) {
+    location.href = "pawcrash://play?c=" + encodeURIComponent(code);
+    setTimeout(function () { if (!document.hidden) location.replace(STORE); }, 1200);
   } else {
-    document.getElementById("open").href = "pawcrash://play?c=" + encodeURIComponent(code);
+    location.replace(STORE);
   }
 </script>
 </body>
