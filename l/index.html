@@ -1,54 +1,6 @@
 <!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<html><head><meta charset="utf-8"><meta name="robots" content="noindex">
 <title>Paw &amp; Crash</title>
-<meta name="apple-itunes-app" content="app-id=6820666976">
-<meta property="og:title" content="猫猫闯祸 · Paw &amp; Crash">
-<meta property="og:description" content="🐾💥">
-<style>
-  body { margin: 0; min-height: 100vh; background: #fbf3e8; color: #59453a; display: flex; align-items: center; justify-content: center;
-    font-family: -apple-system, "PingFang SC", "PingFang TC", "Hiragino Sans", "Apple SD Gothic Neo", sans-serif; }
-  .paw { font-size: 44px; animation: bob 0.9s ease-in-out infinite alternate; }
-  @keyframes bob { from { transform: translateY(0); } to { transform: translateY(-8px); } }
-  .hint { display: none; max-width: 300px; margin: 0 24px; padding: 16px; background: #fff2b0; border: 3px solid #59453a; border-radius: 16px; font-size: 17px; line-height: 1.5; text-align: center; }
-</style>
-</head>
-<body>
-<div class="paw" id="paw">🐾</div>
-<div class="hint" id="hint"></div>
-<script>
-  // A shared level: https://nathan3hui-oss.github.io/l/#PAW1:… With the game installed iOS opens the
-  // game itself and this page never shows. So in Safari the game is missing: straight to the App
-  // Store. Chat apps' own browsers (LINE, Instagram…) can't tell, so they try the game first and
-  // go to the App Store if it doesn't open. WeChat blocks both: it gets a word on what to do.
-  var STORE = "https://apps.apple.com/app/id6820666976";
-  var code = decodeURIComponent(location.hash.slice(1));
-  var ua = navigator.userAgent;
-  var lang = (navigator.language || "en").toLowerCase();
-  var WECHAT = {
-    "zh-hant": "微信打不開遊戲：點右上角 ··· ，選「在瀏覽器開啟」。",
-    "zh": "微信打不开游戏：点右上角 ··· ，选「在浏览器打开」。",
-    "ja": "WeChatではゲームを開けません。右上の ··· から「ブラウザで開く」を選んでください。",
-    "ko": "위챗에서는 게임을 열 수 없어요. 오른쪽 위 ··· 에서 '브라우저에서 열기'를 눌러 주세요.",
-    "en": "WeChat can't open the game: tap ··· at the top right and choose Open in Browser."
-  };
-  function words(table) {
-    if (/^zh-(hant|tw|hk|mo)/.test(lang)) return table["zh-hant"];
-    return table[lang.slice(0, 2)] || table.en;
-  }
-  if (/MicroMessenger/i.test(ua)) {
-    document.getElementById("paw").style.display = "none";
-    var hint = document.getElementById("hint");
-    hint.textContent = words(WECHAT);
-    hint.style.display = "block";
-  } else if (code.indexOf("PAW1:") >= 0 && /Line\/|Instagram|FBAN|FBAV|FB_IAB|Messenger|Twitter|KAKAOTALK|Snapchat|TikTok|musical_ly|BytedanceWebview/i.test(ua)) {
-    location.href = "pawcrash://play?c=" + encodeURIComponent(code);
-    setTimeout(function () { if (!document.hidden) location.replace(STORE); }, 1200);
-  } else {
-    location.replace(STORE);
-  }
-</script>
-</body>
-</html>
+<script>location.replace("https://pawcrash.com/p" + location.hash);</script>
+<meta http-equiv="refresh" content="0; url=https://pawcrash.com/">
+</head><body><a href="https://pawcrash.com/">pawcrash.com</a></body></html>

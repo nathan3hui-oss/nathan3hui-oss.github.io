@@ -1,9 +1,7 @@
 # nathan3hui-oss.github.io
 
-Web pages for 猫猫闯祸 · Paw & Crash:
+Retired. 猫猫闯祸 · Paw & Crash lives at https://pawcrash.com (source: the `web/` folder of the
+paw-crash repository). These pages only forward old links there:
 
-- `/l/#<level code>`: a level shared from the game. With the app installed, iOS opens it straight
-  in the app (universal link, see `.well-known/apple-app-site-association`); otherwise the page
-  offers to open it (`pawcrash://play?c=…`) or to get the app. The code stays after the `#`, so
-  nothing is sent to a server.
-- `/`: a small home page.
+- `/l/#<level code>` → `https://pawcrash.com/p#<level code>`, which opens the shared level.
+- `/` → `https://pawcrash.com/`.
